@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log/slog"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -95,12 +96,47 @@ func run(logger *slog.Logger) error {
 	if err != nil {
 		return err
 	}
-	srv := &http.Server{Addr: ":" + port, Handler: app.Handler(), ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 15 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
-	errorsCh := make(chan error, 1)
-	go func() {
-		logger.Info("listening", "port", port, "storage", store.Mode(), "production", production)
-		errorsCh <- srv.ListenAndServe()
-	}()
+	srv := &http.Server{Handler: app.Handler(), ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 15 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
+	candidatePorts := []string{port}
+	if sp := os.Getenv("SERVER_PORT"); sp != "" && sp != port {
+		candidatePorts = append(candidatePorts, sp)
+	}
+	for _, fallback := range []string{"8080", "3000"} {
+		found := false
+		for _, cp := range candidatePorts {
+			if cp == fallback {
+				found = true
+				break
+			}
+		}
+		if !found {
+			candidatePorts = append(candidatePorts, fallback)
+		}
+	}
+
+	var listeners []net.Listener
+	for _, p := range candidatePorts {
+		l, err := net.Listen("tcp", "0.0.0.0:"+p)
+		if err == nil {
+			listeners = append(listeners, l)
+			logger.Info("listening", "address", l.Addr().String(), "storage", store.Mode(), "production", production)
+		} else {
+			logger.Warn("could not bind port", "port", p, "error", err)
+		}
+	}
+	if len(listeners) == 0 {
+		return errors.New("failed to bind to any port")
+	}
+
+	errorsCh := make(chan error, len(listeners))
+	for _, l := range listeners {
+		l := l
+		go func() {
+			if err := srv.Serve(l); err != nil && !errors.Is(err, http.ErrServerClosed) {
+				errorsCh <- err
+			}
+		}()
+	}
 	select {
 	case err := <-errorsCh:
 		if errors.Is(err, http.ErrServerClosed) {
