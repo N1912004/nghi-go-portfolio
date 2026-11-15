@@ -22,6 +22,7 @@ func main() {
 	}
 }
 func run(logger *slog.Logger) error {
+	loadDotEnv()
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = os.Getenv("SERVER_PORT")
@@ -152,5 +153,33 @@ func run(logger *slog.Logger) error {
 		}
 		logger.Info("graceful shutdown complete")
 		return nil
+	}
+}
+
+func loadDotEnv() {
+	paths := []string{".env", "/.env", "/home/container/.env"}
+	for _, p := range paths {
+		data, err := os.ReadFile(p)
+		if err != nil {
+			continue
+		}
+		for _, line := range strings.Split(string(data), "\n") {
+			line = strings.TrimSpace(line)
+			if line == "" || strings.HasPrefix(line, "#") {
+				continue
+			}
+			parts := strings.SplitN(line, "=", 2)
+			if len(parts) != 2 {
+				continue
+			}
+			k := strings.TrimSpace(parts[0])
+			v := strings.TrimSpace(parts[1])
+			if len(v) >= 2 && ((v[0] == '"' && v[len(v)-1] == '"') || (v[0] == '\'' && v[len(v)-1] == '\'')) {
+				v = v[1 : len(v)-1]
+			}
+			if os.Getenv(k) == "" {
+				_ = os.Setenv(k, v)
+			}
+		}
 	}
 }
