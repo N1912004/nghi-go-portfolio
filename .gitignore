@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+/bin/
+/portfolio
+/coverage.out
+*.log
+.DS_Store

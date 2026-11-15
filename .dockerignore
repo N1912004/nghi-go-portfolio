@@ -1,0 +1,12 @@
+.git
+.github
+.env
+.env.*
+*.log
+coverage.out
+bin
+portfolio
+node_modules
+README.md
+DEPLOY.md
+VERIFICATION.md

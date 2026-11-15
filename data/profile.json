@@ -1,0 +1,72 @@
+{
+  "name": "Nguyen Quoc Nghi",
+  "role": "Backend Developer",
+  "location": "Ho Chi Minh City, Vietnam",
+  "email": "nghi1912004@gmail.com",
+  "github": "https://github.com/N1912004",
+  "linkedin": "https://www.linkedin.com/in/nguyễn-quốc-nghi-aa4960198/",
+  "intro": "I build backend systems where the details matter — payments, data integrity, and reliable APIs.",
+  "about": "At CIT Technology Solutions, I work on production APIs with NestJS and Laravel: payment reconciliation, concurrent wallet operations, database schemas, and query optimization. I also build personal projects in Go, exploring asynchronous jobs, worker pools, testing, and container delivery.",
+  "production_stack": ["TypeScript / NestJS", "PHP / Laravel", "AdonisJS", "PostgreSQL", "MySQL", "Redis / BullMQ", "Socket.IO"],
+  "go_stack": ["Go · net/http", "goroutines & channels", "context", "pgx", "SSE", "go test -race", "Docker", "GitHub Actions"],
+  "education": "B.Sc. Information Technology — Ho Chi Minh City University of Industry and Trade (HUIT), June 2026",
+  "experience": [{
+    "company": "CIT Technology Solutions",
+    "role": "Backend Developer",
+    "period": "Dec 2025 — Present",
+    "summary": "Production backend development across payment, ride-hailing, ERP, and POS applications. Selected contributions are detailed below; Go work is listed separately as personal projects."
+  }],
+  "projects": [
+    {
+      "id": "ai-gateway",
+      "name": "Go AI Job Gateway",
+      "category": "Personal / Go",
+      "period": "Oct 2026",
+      "summary": "An asynchronous gateway for long-running AI jobs, with bounded concurrency and provider fallback.",
+      "stack": ["Go", "PostgreSQL", "Redis", "Docker", "GitHub Actions"],
+      "highlights": ["HTTP 202 submission, polling/SSE results, bounded workers, per-job timeouts, and graceful shutdown.", "Atomic Redis Lua rate limiting, device-scoped job access, and interchangeable stores.", "15 tests run with the race detector; CI checks and Kubernetes probes/HPA configuration."],
+      "source_url": "https://github.com/N1912004/UPDATE_CV_2026"
+    },
+    {
+      "id": "unicorn",
+      "name": "Unicorn",
+      "category": "Production",
+      "period": "Mar 2026 — Present",
+      "summary": "Backend for a cyber-cafe chain: PC-session billing, wallet top-ups, F&B orders, and revenue reports.",
+      "stack": ["NestJS", "PostgreSQL", "Redis", "BullMQ", "9Pay"],
+      "highlights": ["Unified payment IPN/callback handling with idempotency and per-minute reconciliation.", "Implemented multi-device admin sessions with Jest e2e tests.", "Tuned slow reporting queries with EXPLAIN ANALYZE."]
+    },
+    {
+      "id": "happygo",
+      "name": "HappyGo",
+      "category": "Production",
+      "period": "Aug 2026 — Present",
+      "summary": "CMS and mobile APIs for a ride-hailing and delivery platform.",
+      "stack": ["Laravel", "MySQL", "REST APIs"],
+      "highlights": ["Resolved approximately 60 tickets across trips, coupons, wallets, and stores.", "Added concurrency protection against duplicate driver-withdrawal approvals.", "Implemented Vietnamese search without diacritics and province-scoped access."]
+    },
+    {
+      "id": "catering-erp",
+      "name": "Xuat An Kieu My ERP",
+      "category": "Production",
+      "period": "Jul — Aug 2026",
+      "summary": "Data models and ERP workflows for an industrial-catering business.",
+      "stack": ["Laravel", "Filament", "MySQL", "PHPUnit"],
+      "highlights": ["Designed schemas and modules for HR/timekeeping, menus, purchasing, stock, supplier pricing, and food-safety checks.", "Added RBAC, Vietnamese/English localization, and Excel import/export.", "Improved query structure through N+1 removal and indexing."]
+    },
+    {
+      "id": "posnail",
+      "name": "PosNail",
+      "category": "Production",
+      "period": "Aug — Sep 2026",
+      "summary": "Address-data migration for a US nail-salon POS management system.",
+      "stack": ["AdonisJS", "MySQL", "Redis"],
+      "highlights": ["Replaced free-text addresses with indexed state/city IDs using a 29,880-city dataset.", "Preserved data across order, export, and audit-log flows."]
+    }
+  ],
+  "training": [
+    {"name": "Learning Docker", "provider": "LinkedIn Learning", "date": "Mar 2026"},
+    {"name": "Practical GitHub Actions", "provider": "LinkedIn Learning", "date": "Mar 2026"},
+    {"name": "Career Essentials in GitHub Copilot Professional Certificate", "provider": "LinkedIn Learning", "date": "Mar 2026"}
+  ]
+}

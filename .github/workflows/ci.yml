@@ -1,0 +1,43 @@
+name: Go checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: portfolio
+          POSTGRES_PASSWORD: ci-test-only-password
+          POSTGRES_DB: portfolio_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U portfolio -d portfolio_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgres://portfolio:ci-test-only-password@localhost:5432/portfolio_test?sslmode=disable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 1.27.x
+          cache: true
+      - name: Check formatting
+        run: test -z "$(gofmt -l .)"
+      - name: Vet
+        run: go vet ./...
+      - name: Unit, integration, and race tests
+        run: go test -race -count=1 -coverprofile=coverage.out ./...
+      - name: Build Go binary
+        run: CGO_ENABLED=0 go build -mod=readonly -trimpath -o /tmp/portfolio .
+      - name: Build container
+        run: docker build -t nghi-portfolio:ci .
