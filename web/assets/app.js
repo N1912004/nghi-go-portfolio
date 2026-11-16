@@ -61,7 +61,7 @@
     "filter.go": { en: "Personal / Go", vi: "Cá nhân / Go" },
     "filter.prod": { en: "Production", vi: "Production" },
     "proj.contribution": { en: "My contribution", vi: "Đóng góp của tôi" },
-    "proj.view_repo": { en: "View repository <span aria-hidden=\"true\">↗</span>", vi: "Xem mã nguồn <span aria-hidden=\"true\">↗</span>" },
+    "proj.view_repo": { en: "Live website <span aria-hidden=\"true\">↗</span>", vi: "Trải nghiệm website <span aria-hidden=\"true\">↗</span>" },
     "eng.eyebrow": { en: "04 / UNDER THE HOOD", vi: "04 / BÊN TRONG HỆ THỐNG" },
     "eng.title": { en: "A portfolio with<br>a real Go backend.", vi: "Một portfolio với<br>backend Go thực thụ." },
     "eng.note": { en: "Server-rendered HTML. Embedded assets. PostgreSQL.<br>No framework needed to serve the first page.", vi: "HTML render từ server. Asset đóng gói kèm nhị phân. PostgreSQL.<br>Không cần framework cồng kềnh để phục vụ trang đầu tiên." },

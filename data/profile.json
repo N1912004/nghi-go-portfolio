@@ -25,7 +25,7 @@
       "summary": "An asynchronous gateway for long-running AI jobs, with bounded concurrency and provider fallback.",
       "stack": ["Go", "PostgreSQL", "Redis", "Docker", "GitHub Actions"],
       "highlights": ["HTTP 202 submission, polling/SSE results, bounded workers, per-job timeouts, and graceful shutdown.", "Atomic Redis Lua rate limiting, device-scoped job access, and interchangeable stores.", "15 tests run with the race detector; CI checks and Kubernetes probes/HPA configuration."],
-      "source_url": "https://github.com/N1912004/UPDATE_CV_2026"
+      "source_url": "https://nghi-portfolio.bot-keep.xyz"
     },
     {
       "id": "unicorn",
