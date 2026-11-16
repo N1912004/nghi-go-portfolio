@@ -12,8 +12,8 @@
   {{if .PublicURL}}<link rel="canonical" href="{{.PublicURL}}/">{{end}}
   <title>{{.Profile.Name}} · Backend Developer</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css">
-  <script src="/assets/app.js" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=2.1">
+  <script src="/assets/app.js?v=2.1" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -88,9 +88,9 @@ POST /contact</pre></div></div></div></section>
             <button id="game-sound-btn" class="icon-button hud-btn" type="button" aria-label="Toggle Sound" title="Sound: On/Off">🔊</button>
           </div>
         </div>
-        <div class="game-canvas-wrap">
-          <canvas id="game-canvas" width="600" height="420"></canvas>
-          <div id="game-overlay" class="game-overlay">
+        <div class="game-canvas-wrap" style="position:relative;width:100%;aspect-ratio:600/420;background:#0d1c19;border-radius:12px;overflow:hidden;border:1px solid #28443d;">
+          <canvas id="game-canvas" width="600" height="420" style="width:100%;height:100%;display:block;"></canvas>
+          <div id="game-overlay" class="game-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(12,25,23,0.92);backdrop-filter:blur(5px);z-index:10;padding:24px;text-align:center;">
             <div id="game-start-view" class="overlay-content">
               <div class="gopher-badge">🐹</div>
               <h3 data-i18n="game.start_title">Gopher Cứu Gói Tin</h3>

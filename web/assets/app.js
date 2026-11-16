@@ -594,6 +594,22 @@
       }
     }
 
+    function safeRoundRect(c, x, y, w, h, r) {
+      if (typeof c.roundRect === 'function') {
+        try {
+          c.roundRect(x, y, w, h, r);
+          return;
+        } catch (_) {}
+      }
+      const radius = typeof r === 'number' ? r : (Array.isArray(r) ? r[0] : 6);
+      c.moveTo(x + radius, y);
+      c.arcTo(x + w, y, x + w, y + h, radius);
+      c.arcTo(x + w, y + h, x, y + h, radius);
+      c.arcTo(x, y + h, x, y, radius);
+      c.arcTo(x, y, x + w, y, radius);
+      c.closePath();
+    }
+
     function drawGopher(x, y) {
       ctx.save();
       ctx.fillStyle = 'rgba(0,0,0,0.25)';
@@ -614,7 +630,7 @@
 
       ctx.fillStyle = '#00ADD8';
       ctx.beginPath();
-      ctx.roundRect(x + 8, y + 12, 48, 42, [18, 18, 12, 12]);
+      safeRoundRect(ctx, x + 8, y + 12, 48, 42, 16);
       ctx.fill();
 
       ctx.fillStyle = '#c7edf8';
@@ -655,7 +671,7 @@
 
       ctx.fillStyle = '#1d342f';
       ctx.beginPath();
-      ctx.roundRect(x - 6, y + 36, 76, 12, 6);
+      safeRoundRect(ctx, x - 6, y + 36, 76, 12, 6);
       ctx.fill();
       ctx.strokeStyle = '#73dfb6';
       ctx.lineWidth = 1.5;
@@ -674,7 +690,7 @@
       ctx.save();
       ctx.fillStyle = p.bg;
       ctx.beginPath();
-      ctx.roundRect(p.x, p.y, p.width, p.height, 6);
+      safeRoundRect(ctx, p.x, p.y, p.width, p.height, 6);
       ctx.fill();
       ctx.strokeStyle = p.border;
       ctx.lineWidth = 1.2;
