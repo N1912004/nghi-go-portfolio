@@ -7,6 +7,7 @@ import (
 	"crypto/subtle"
 	"encoding/hex"
 	"encoding/json"
+	"html"
 	"html/template"
 	"io/fs"
 	"log/slog"
@@ -16,6 +17,7 @@ import (
 	"net/mail"
 	"net/url"
 	"runtime"
+	"sort"
 	"strings"
 	"sync"
 	"time"
@@ -26,14 +28,23 @@ type Config struct {
 	PublicURL  string
 	Production bool
 }
+type GameScore struct {
+	Name      string    `json:"name"`
+	Score     int       `json:"score"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
 type App struct {
-	profile  Profile
-	store    Store
-	cfg      Config
-	template *template.Template
-	limiter  *Limiter
-	started  time.Time
-	logger   *slog.Logger
+	profile     Profile
+	store       Store
+	cfg         Config
+	template    *template.Template
+	limiter     *Limiter
+	started     time.Time
+	logger      *slog.Logger
+	gameMu      sync.RWMutex
+	scores      []GameScore
+	gameLimiter *Limiter
 }
 type View struct {
 	Profile   Profile
@@ -52,7 +63,24 @@ func NewApp(p Profile, store Store, cfg Config, logger *slog.Logger) (*App, erro
 	if err != nil {
 		return nil, err
 	}
-	return &App{profile: p, store: store, cfg: cfg, template: tmpl, limiter: NewLimiter(5, 10*time.Minute), started: time.Now(), logger: logger}, nil
+	initialScores := []GameScore{
+		{Name: "GopherPro", Score: 2450, CreatedAt: time.Now().Add(-2 * time.Hour)},
+		{Name: "BackendNinja", Score: 1820, CreatedAt: time.Now().Add(-5 * time.Hour)},
+		{Name: "ConcurrencyMaster", Score: 1400, CreatedAt: time.Now().Add(-12 * time.Hour)},
+		{Name: "RedisCacheKing", Score: 950, CreatedAt: time.Now().Add(-24 * time.Hour)},
+		{Name: "GoRookie", Score: 500, CreatedAt: time.Now().Add(-48 * time.Hour)},
+	}
+	return &App{
+		profile:     p,
+		store:       store,
+		cfg:         cfg,
+		template:    tmpl,
+		limiter:     NewLimiter(5, 10*time.Minute),
+		started:     time.Now(),
+		logger:      logger,
+		scores:      initialScores,
+		gameLimiter: NewLimiter(10, 1*time.Minute),
+	}, nil
 }
 func (a *App) Handler() http.Handler {
 	mux := http.NewServeMux()
@@ -61,6 +89,8 @@ func (a *App) Handler() http.Handler {
 	mux.HandleFunc("GET /{$}", a.home)
 	mux.HandleFunc("GET /api/projects", a.projects)
 	mux.HandleFunc("GET /api/profile", func(w http.ResponseWriter, r *http.Request) { writeJSON(w, http.StatusOK, a.profile) })
+	mux.HandleFunc("GET /api/game/leaderboard", a.getLeaderboard)
+	mux.HandleFunc("POST /api/game/score", a.postScore)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 	})
@@ -147,6 +177,84 @@ func (a *App) projects(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, 200, p)
+}
+func (a *App) getLeaderboard(w http.ResponseWriter, r *http.Request) {
+	a.gameMu.RLock()
+	defer a.gameMu.RUnlock()
+
+	limit := 10
+	if len(a.scores) < limit {
+		limit = len(a.scores)
+	}
+	res := make([]GameScore, limit)
+	copy(res, a.scores[:limit])
+	writeJSON(w, http.StatusOK, res)
+}
+
+type postScoreRequest struct {
+	Name  string `json:"name"`
+	Score int    `json:"score"`
+}
+
+func (a *App) postScore(w http.ResponseWriter, r *http.Request) {
+	host, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		host = r.RemoteAddr
+	}
+	if !a.gameLimiter.Allow(host, time.Now()) {
+		w.Header().Set("Retry-After", "60")
+		writeJSON(w, http.StatusTooManyRequests, map[string]string{"error": "Too many requests. Please wait a minute."})
+		return
+	}
+
+	r.Body = http.MaxBytesReader(w, r.Body, 4<<10)
+	var req postScoreRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "Invalid JSON format"})
+		return
+	}
+
+	name := strings.TrimSpace(html.EscapeString(req.Name))
+	nameLen := utf8.RuneCountInString(name)
+	if nameLen < 2 || nameLen > 25 {
+		writeJSON(w, http.StatusUnprocessableEntity, map[string]string{"error": "Player name must be between 2 and 25 characters"})
+		return
+	}
+	if strings.ContainsAny(name, "\r\n\x00") {
+		writeJSON(w, http.StatusUnprocessableEntity, map[string]string{"error": "Invalid player name characters"})
+		return
+	}
+	if req.Score <= 0 || req.Score > 100000 {
+		writeJSON(w, http.StatusUnprocessableEntity, map[string]string{"error": "Score must be between 1 and 100,000"})
+		return
+	}
+
+	entry := GameScore{
+		Name:      name,
+		Score:     req.Score,
+		CreatedAt: time.Now(),
+	}
+
+	a.gameMu.Lock()
+	a.scores = append(a.scores, entry)
+	sort.SliceStable(a.scores, func(i, j int) bool {
+		return a.scores[i].Score > a.scores[j].Score
+	})
+	if len(a.scores) > 50 {
+		a.scores = a.scores[:50]
+	}
+	limit := 10
+	if len(a.scores) < limit {
+		limit = len(a.scores)
+	}
+	topList := make([]GameScore, limit)
+	copy(topList, a.scores[:limit])
+	a.gameMu.Unlock()
+
+	writeJSON(w, http.StatusOK, map[string]any{
+		"message":     "Score recorded successfully",
+		"leaderboard": topList,
+	})
 }
 func (a *App) ready(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)

@@ -20,7 +20,7 @@
 <header class="site-header">
   <nav class="nav container" aria-label="Main navigation">
     <a class="wordmark" href="#home" aria-label="Nguyen Quoc Nghi home"><span class="logo-mark">N<span>.</span></span><span>nghi<span class="soft">.dev</span></span></a>
-    <div class="nav-links"><a href="#about" data-i18n="nav.about">About</a><a href="#work" data-i18n="nav.work">Work</a><a href="#engineering" data-i18n="nav.engineering">Engineering</a><a href="#contact" data-i18n="nav.contact">Contact</a></div>
+    <div class="nav-links"><a href="#about" data-i18n="nav.about">About</a><a href="#work" data-i18n="nav.work">Work</a><a href="#engineering" data-i18n="nav.engineering">Engineering</a><a href="#game" data-i18n="nav.game">Mini Game 🎮</a><a href="#contact" data-i18n="nav.contact">Contact</a></div>
     <div class="nav-actions">
       <button id="lang-toggle" class="lang-button" type="button" aria-label="Chuyển sang tiếng Việt">VI</button>
       <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch to dark theme" hidden><span aria-hidden="true">◐</span></button>
@@ -69,7 +69,82 @@ GET /api/projects
 GET /api/profile
 POST /contact</pre></div></div></div></section>
 <section class="section container learning-grid"><div><p class="eyebrow" data-i18n="learn.eyebrow">05 / CONTINUOUS LEARNING</p><h2 data-i18n="learn.title">Keep learning.<br>Keep building.</h2><p class="muted" data-i18n="learn.edu">{{.Profile.Education}}</p></div><div class="training-list">{{range $ti,$t:=.Profile.Training}}<div class="training"><h3 data-training-title="{{$ti}}">{{$t.Name}}</h3><p data-training-sub="{{$ti}}">{{$t.Provider}} · {{$t.Date}} · Completed training</p></div>{{end}}</div></section>
-<section id="contact" class="contact-section"><div class="container section contact-grid"><div><p class="eyebrow" data-i18n="contact.eyebrow">06 / GET IN TOUCH</p><h2 data-i18n="contact.title">Let's talk<br><span class="accent">backend.</span></h2><p data-i18n="contact.desc">Have a backend opportunity or a technical question?<br>I'd be happy to hear from you.</p><a class="contact-email" href="mailto:{{.Profile.Email}}">{{.Profile.Email}} <span aria-hidden="true">↗</span></a><div class="social-links"><a href="{{.Profile.Github}}" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="{{.Profile.Linkedin}}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div><p class="privacy-note" data-i18n="contact.privacy">The form stores your name, email, and message. Messages are scheduled for deletion after 30 days; cleanup runs daily while the server is active. No advertising trackers.</p></div><div>{{if eq .Mode "memory"}}<p class="notice warning" data-i18n="contact.dev_mode">Development mode: messages are temporary and disappear when the server restarts. Use email for a real enquiry.</p>{{end}}{{if .Sent}}<p class="notice success" role="status" data-i18n="contact.sent_msg">Your message was saved{{if eq .Mode "memory"}} temporarily in this development session{{end}}. This form does not send email notifications. For a time-sensitive enquiry, email me directly.</p>{{end}}{{if .Error}}<p class="notice warning" role="alert">{{.Error}}</p>{{end}}<form method="post" action="/contact" class="contact-form"><input type="hidden" name="csrf_token" value="{{.CSRF}}"><div class="honeypot" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div><label for="name" data-i18n="contact.label_name">Your name</label><input id="name" name="name" autocomplete="name" minlength="2" maxlength="80" required placeholder="Your name" data-i18n-ph="contact.ph_name"><label for="email" data-i18n="contact.label_email">Email address</label><input id="email" type="email" name="email" autocomplete="email" maxlength="254" required placeholder="you@company.com" data-i18n-ph="contact.ph_email"><label for="message" data-i18n="contact.label_message">Message</label><textarea id="message" name="message" rows="4" minlength="20" maxlength="2000" required placeholder="Tell me about the opportunity or what you'd like to discuss…" data-i18n-ph="contact.ph_message"></textarea><button class="button primary" type="submit" data-i18n="contact.btn_send">Send message <span aria-hidden="true">↗</span></button><p class="form-note" data-i18n="contact.note">20–2,000 characters. Please don't include passwords or confidential data.</p></form></div></div></section>
+<section id="game" class="game-section">
+  <div class="container section">
+    <div class="section-top">
+      <div>
+        <p class="eyebrow" data-i18n="game.eyebrow">06 / MINI GAME</p>
+        <h2 data-i18n="game.title">Gopher Cứu Gói Tin<br><span class="accent">Packet Catcher</span> 🎮</h2>
+      </div>
+      <p class="section-note" data-i18n="game.note">Hứng các gói tin chuẩn (200 OK, Goroutine, Redis, Postgres), tránh bẫy Bug 500 và Deadlock để giữ server 99.99% uptime!</p>
+    </div>
+    <div class="game-layout">
+      <div class="game-main-card">
+        <div class="game-hud">
+          <div class="hud-item"><span class="hud-label" data-i18n="game.score">Score:</span> <strong id="game-score">0</strong></div>
+          <div class="hud-item"><span class="hud-label" data-i18n="game.level">Level:</span> <strong id="game-level">1</strong></div>
+          <div class="hud-item"><span class="hud-label" data-i18n="game.lives">Lives:</span> <span id="game-lives" aria-label="3 lives">❤️❤️❤️</span></div>
+          <div class="hud-actions">
+            <button id="game-sound-btn" class="icon-button hud-btn" type="button" aria-label="Toggle Sound" title="Sound: On/Off">🔊</button>
+          </div>
+        </div>
+        <div class="game-canvas-wrap">
+          <canvas id="game-canvas" width="600" height="420"></canvas>
+          <div id="game-overlay" class="game-overlay">
+            <div id="game-start-view" class="overlay-content">
+              <div class="gopher-badge">🐹</div>
+              <h3 data-i18n="game.start_title">Gopher Cứu Gói Tin</h3>
+              <p data-i18n="game.start_desc">Cứu server Go khỏi sập bằng cách hứng các gói tin lành và né tránh bọ lỗi!</p>
+              <div class="game-legend">
+                <span><i class="legend-badge good">200 OK</i> +10</span>
+                <span><i class="legend-badge good">Goroutine</i> +20</span>
+                <span><i class="legend-badge good">Redis</i> +30</span>
+                <span><i class="legend-badge good">Postgres</i> +40</span>
+                <span><i class="legend-badge bad">Bug 500</i> -1 ❤️</span>
+                <span><i class="legend-badge bad">Deadlock</i> -1 ❤️</span>
+              </div>
+              <button id="btn-start-game" class="button primary" type="button" data-i18n="game.btn_start">Bắt đầu chơi 🚀</button>
+            </div>
+            <div id="game-over-view" class="overlay-content" hidden>
+              <div class="game-over-emoji">💥</div>
+              <h3 data-i18n="game.over_title">Server Timeout! Game Over</h3>
+              <p><span data-i18n="game.final_score">Điểm số của bạn:</span> <strong id="game-final-score" class="accent">0</strong></p>
+              <form id="game-score-form" class="score-form">
+                <label for="player-name" class="sr-only">Player Name</label>
+                <input type="text" id="player-name" maxlength="25" minlength="2" placeholder="Tên của bạn (vd: GopherHero)" required autocomplete="nickname" data-i18n-ph="game.ph_name">
+                <button type="submit" class="button primary" id="btn-save-score" data-i18n="game.save_score">Lưu điểm vào Go Server 🏆</button>
+              </form>
+              <div id="score-submit-msg" class="score-submit-msg" aria-live="polite"></div>
+              <button id="btn-restart-game" class="button secondary" type="button" data-i18n="game.btn_replay">Chơi lại 🔄</button>
+            </div>
+          </div>
+        </div>
+        <div class="game-mobile-controls" aria-label="Mobile Controls">
+          <button id="btn-move-left" class="mobile-ctrl-btn" type="button" aria-label="Move Left">⬅️ Trái</button>
+          <button id="btn-move-right" class="mobile-ctrl-btn" type="button" aria-label="Move Right">Phải ➡️</button>
+        </div>
+        <div class="game-guide">
+          <p><strong data-i18n="game.controls_title">Cách điều khiển:</strong> <span data-i18n="game.controls_desc">Dùng phím Mũi tên ⬅️ ➡️ hoặc A / D trên bàn phím. Trên Mobile / Chuột: chạm hoặc rê chuột trên màn hình để di chuyển Gopher.</span></p>
+        </div>
+      </div>
+      <div class="game-sidebar">
+        <div class="leaderboard-card">
+          <div class="lb-header">
+            <h3>🏆 <span data-i18n="game.lb_title">Bảng Xếp Hạng Go</span></h3>
+            <button id="btn-refresh-lb" class="icon-button hud-btn" type="button" title="Làm mới" aria-label="Refresh leaderboard">↻</button>
+          </div>
+          <p class="lb-sub" data-i18n="game.lb_sub">Được đồng bộ trực tiếp qua REST API Go backend</p>
+          <div class="lb-list-wrap">
+            <ol id="leaderboard-list" class="leaderboard-list">
+              <li class="lb-loading" data-i18n="game.lb_loading">Đang tải bảng điểm...</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="contact" class="contact-section"><div class="container section contact-grid"><div><p class="eyebrow" data-i18n="contact.eyebrow">07 / GET IN TOUCH</p><h2 data-i18n="contact.title">Let's talk<br><span class="accent">backend.</span></h2><p data-i18n="contact.desc">Have a backend opportunity or a technical question?<br>I'd be happy to hear from you.</p><a class="contact-email" href="mailto:{{.Profile.Email}}">{{.Profile.Email}} <span aria-hidden="true">↗</span></a><div class="social-links"><a href="{{.Profile.Github}}" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="{{.Profile.Linkedin}}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div><p class="privacy-note" data-i18n="contact.privacy">The form stores your name, email, and message. Messages are scheduled for deletion after 30 days; cleanup runs daily while the server is active. No advertising trackers.</p></div><div>{{if eq .Mode "memory"}}<p class="notice warning" data-i18n="contact.dev_mode">Development mode: messages are temporary and disappear when the server restarts. Use email for a real enquiry.</p>{{end}}{{if .Sent}}<p class="notice success" role="status" data-i18n="contact.sent_msg">Your message was saved{{if eq .Mode "memory"}} temporarily in this development session{{end}}. This form does not send email notifications. For a time-sensitive enquiry, email me directly.</p>{{end}}{{if .Error}}<p class="notice warning" role="alert">{{.Error}}</p>{{end}}<form method="post" action="/contact" class="contact-form"><input type="hidden" name="csrf_token" value="{{.CSRF}}"><div class="honeypot" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div><label for="name" data-i18n="contact.label_name">Your name</label><input id="name" name="name" autocomplete="name" minlength="2" maxlength="80" required placeholder="Your name" data-i18n-ph="contact.ph_name"><label for="email" data-i18n="contact.label_email">Email address</label><input id="email" type="email" name="email" autocomplete="email" maxlength="254" required placeholder="you@company.com" data-i18n-ph="contact.ph_email"><label for="message" data-i18n="contact.label_message">Message</label><textarea id="message" name="message" rows="4" minlength="20" maxlength="2000" required placeholder="Tell me about the opportunity or what you'd like to discuss…" data-i18n-ph="contact.ph_message"></textarea><button class="button primary" type="submit" data-i18n="contact.btn_send">Send message <span aria-hidden="true">↗</span></button><p class="form-note" data-i18n="contact.note">20–2,000 characters. Please don't include passwords or confidential data.</p></form></div></div></section>
 </main>
 <footer class="container footer"><a class="wordmark" href="#home"><span class="logo-mark">N<span>.</span></span><span>{{.Profile.Name}}</span></a><p>© {{.Year}} · Served by {{.GoVersion}}</p><a href="#home" class="text-link" data-i18n="footer.top">Back to top ↑</a></footer>
 </body>

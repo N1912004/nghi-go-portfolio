@@ -331,3 +331,59 @@ func TestContactFailureNotSuccess(t *testing.T) {
 		t.Fatal(w.Code)
 	}
 }
+
+func TestGameEndpoints(t *testing.T) {
+	a, _ := testApp(t)
+
+	// Test GET Leaderboard
+	w := httptest.NewRecorder()
+	a.Handler().ServeHTTP(w, httptest.NewRequest("GET", "/api/game/leaderboard", nil))
+	if w.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d", w.Code)
+	}
+	var scores []GameScore
+	if err := json.Unmarshal(w.Body.Bytes(), &scores); err != nil {
+		t.Fatalf("invalid json: %v", err)
+	}
+	if len(scores) == 0 {
+		t.Fatal("expected scores, got empty")
+	}
+
+	// Test valid POST score
+	postData := `{"name": "Champion", "score": 3500}`
+	req := httptest.NewRequest("POST", "/api/game/score", strings.NewReader(postData))
+	req.Header.Set("Content-Type", "application/json")
+	w = httptest.NewRecorder()
+	a.Handler().ServeHTTP(w, req)
+	if w.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+	var resp struct {
+		Message     string      `json:"message"`
+		Leaderboard []GameScore `json:"leaderboard"`
+	}
+	if err := json.Unmarshal(w.Body.Bytes(), &resp); err != nil {
+		t.Fatalf("invalid json: %v", err)
+	}
+	if len(resp.Leaderboard) == 0 || resp.Leaderboard[0].Name != "Champion" || resp.Leaderboard[0].Score != 3500 {
+		t.Fatalf("expected Champion at rank 1, got %+v", resp.Leaderboard[0])
+	}
+
+	// Test invalid score (negative or zero)
+	req = httptest.NewRequest("POST", "/api/game/score", strings.NewReader(`{"name": "Noob", "score": -5}`))
+	req.Header.Set("Content-Type", "application/json")
+	w = httptest.NewRecorder()
+	a.Handler().ServeHTTP(w, req)
+	if w.Code != http.StatusUnprocessableEntity {
+		t.Fatalf("expected 422, got %d", w.Code)
+	}
+
+	// Test invalid name length
+	req = httptest.NewRequest("POST", "/api/game/score", strings.NewReader(`{"name": "X", "score": 100}`))
+	req.Header.Set("Content-Type", "application/json")
+	w = httptest.NewRecorder()
+	a.Handler().ServeHTTP(w, req)
+	if w.Code != http.StatusUnprocessableEntity {
+		t.Fatalf("expected 422, got %d", w.Code)
+	}
+}
