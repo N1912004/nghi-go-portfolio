@@ -105,7 +105,9 @@
     "game.lb_title": { en: "Go Leaderboard", vi: "Bảng Xếp Hạng Go" },
     "game.lb_sub": { en: "Live synced via Go REST API backend", vi: "Được đồng bộ trực tiếp qua REST API Go backend" },
     "game.lb_loading": { en: "Loading leaderboard...", vi: "Đang tải bảng điểm..." },
-    "game.lb_empty": { en: "No high scores yet. Be the first!", vi: "Chưa có kỷ lục nào. Hãy là người đầu tiên!" }
+    "game.lb_empty": { en: "No high scores yet. Be the first!", vi: "Chưa có kỷ lục nào. Hãy là người đầu tiên!" },
+    "game.btn_left": { en: "⬅️ Left", vi: "⬅️ Trái" },
+    "game.btn_right": { en: "Right ➡️", vi: "Phải ➡️" }
   };
 
   const placeholders = {

@@ -1,151 +1,337 @@
 <!doctype html>
 <html lang="en" data-theme="light">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Nguyen Quoc Nghi — backend developer in Ho Chi Minh City. Production APIs, payment integrity, SQL optimization, and personal Go projects.">
+  <meta name="description"
+    content="Nguyen Quoc Nghi — backend developer in Ho Chi Minh City. Production APIs, payment integrity, SQL optimization, and personal Go projects.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f7f8fa">
   <meta property="og:title" content="Nguyen Quoc Nghi · Backend Developer">
   <meta property="og:description" content="Payments. Data integrity. Reliable APIs. Explore my work and Go projects.">
   <meta property="og:type" content="website">
-  {{if .PublicURL}}<link rel="canonical" href="{{.PublicURL}}/">{{end}}
+  {{if .PublicURL}}
+  <link rel="canonical" href="{{.PublicURL}}/">{{end}}
   <title>{{.Profile.Name}} · Backend Developer</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=2.1">
-  <script src="/assets/app.js?v=2.1" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=2.2">
+  <script src="/assets/app.js?v=2.2" defer></script>
 </head>
+
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="site-header">
-  <nav class="nav container" aria-label="Main navigation">
-    <a class="wordmark" href="#home" aria-label="Nguyen Quoc Nghi home"><span class="logo-mark">N<span>.</span></span><span>nghi<span class="soft">.dev</span></span></a>
-    <div class="nav-links"><a href="#about" data-i18n="nav.about">About</a><a href="#work" data-i18n="nav.work">Work</a><a href="#engineering" data-i18n="nav.engineering">Engineering</a><a href="#game" data-i18n="nav.game">Mini Game 🎮</a><a href="#contact" data-i18n="nav.contact">Contact</a></div>
-    <div class="nav-actions">
-      <button id="lang-toggle" class="lang-button" type="button" aria-label="Chuyển sang tiếng Việt">VI</button>
-      <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch to dark theme" hidden><span aria-hidden="true">◐</span></button>
-    </div>
-  </nav>
-</header>
-<main id="main">
-<section id="home" class="hero container">
-  <div class="hero-copy">
-    <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> <span data-i18n="hero.eyebrow">BACKEND DEVELOPER · HO CHI MINH CITY</span></p>
-    <h1 data-i18n="hero.title">Good systems.<br>Built from <span class="accent">the backend.</span></h1>
-    <p class="hero-intro" data-i18n="hero.intro">Hi, I'm <strong>{{.Profile.Name}}</strong>.<br>{{.Profile.Intro}}</p>
-    <div class="actions"><a class="button primary" href="#work" data-i18n="hero.actions_work">Explore my work <span aria-hidden="true">↗</span></a><a class="button secondary" href="/assets/resume.pdf" download="CV_NguyenQuocNghi_Backend.pdf" data-i18n="hero.actions_cv">Download CV <span aria-hidden="true">↓</span></a></div>
-    <div class="hero-foot"><span class="mini-line" aria-hidden="true"></span><span data-i18n="hero.foot">Production APIs in NestJS / Laravel.<br>Personal projects in Go.</span></div>
-  </div>
-  <aside class="hero-visual" aria-label="Portrait and technology focus">
-    <div class="portrait-frame"><img src="/assets/portrait.jpg" width="541" height="591" alt="Portrait of Nguyen Quoc Nghi" fetchpriority="high"><div class="portrait-caption"><strong>{{.Profile.Name}}</strong><span data-i18n="hero.role">{{.Profile.Role}}</span></div></div>
-    <div class="code-card"><div class="code-heading"><span><i></i><i></i><i></i></span><span>focus.go</span></div><pre><code><span class="code-purple">type</span> Backend <span class="code-purple">struct</span> {
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="wordmark" href="#home" aria-label="Nguyen Quoc Nghi home"><span
+          class="logo-mark">N<span>.</span></span><span>nghi<span class="soft">.dev</span></span></a>
+      <div class="nav-links"><a href="#about" data-i18n="nav.about">About</a><a href="#work"
+          data-i18n="nav.work">Work</a><a href="#engineering" data-i18n="nav.engineering">Engineering</a><a href="#game"
+          data-i18n="nav.game">Mini Game 🎮</a><a href="#contact" data-i18n="nav.contact">Contact</a></div>
+      <div class="nav-actions">
+        <button id="lang-toggle" class="lang-button" type="button" aria-label="Chuyển sang tiếng Việt">VI</button>
+        <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch to dark theme" hidden><span
+            aria-hidden="true">◐</span></button>
+      </div>
+    </nav>
+  </header>
+  <main id="main">
+    <section id="home" class="hero container">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> <span data-i18n="hero.eyebrow">BACKEND
+            DEVELOPER · HO CHI MINH CITY</span></p>
+        <h1 data-i18n="hero.title">Good systems.<br>Built from <span class="accent">the backend.</span></h1>
+        <p class="hero-intro" data-i18n="hero.intro">Hi, I'm <strong>{{.Profile.Name}}</strong>.<br>{{.Profile.Intro}}
+        </p>
+        <div class="actions"><a class="button primary" href="#work" data-i18n="hero.actions_work">Explore my work <span
+              aria-hidden="true">↗</span></a><a class="button secondary" href="/assets/resume.pdf"
+            download="CV_NguyenQuocNghi_Backend.pdf" data-i18n="hero.actions_cv">Download CV <span
+              aria-hidden="true">↓</span></a></div>
+        <div class="hero-foot"><span class="mini-line" aria-hidden="true"></span><span data-i18n="hero.foot">Production
+            APIs in NestJS / Laravel.<br>Personal projects in Go.</span></div>
+      </div>
+      <aside class="hero-visual" aria-label="Portrait and technology focus">
+        <div class="portrait-frame"><img src="/assets/portrait.jpg" width="541" height="591"
+            alt="Portrait of Nguyen Quoc Nghi" fetchpriority="high">
+          <div class="portrait-caption"><strong>{{.Profile.Name}}</strong><span
+              data-i18n="hero.role">{{.Profile.Role}}</span></div>
+        </div>
+        <div class="code-card">
+          <div class="code-heading"><span><i></i><i></i><i></i></span><span>focus.go</span></div>
+          <pre><code><span class="code-purple">type</span> Backend <span class="code-purple">struct</span> {
     APIs       <span class="code-green">string</span>
     Data       <span class="code-green">string</span>
     Mindset    <span class="code-green">string</span>
 }
 
-<span class="code-muted" data-i18n="hero.code_comment">// Build. Test. Understand.</span></code></pre></div>
-  </aside>
-</section>
-<div class="stack-strip"><div class="container strip-inner"><span data-i18n="strip.tools">TOOLS I WORK WITH</span><strong>Go</strong><strong>NestJS</strong><strong>Laravel</strong><strong>PostgreSQL</strong><strong>Redis</strong><strong>Docker</strong></div></div>
-<section id="about" class="section container about-grid">
-  <div><p class="eyebrow" data-i18n="about.eyebrow">01 / THE PERSON BEHIND THE CODE</p><h2 data-i18n="about.title">Practical work.<br>Curious mindset.</h2></div>
-  <div class="about-content"><p class="lead" data-i18n="about.lead">{{.Profile.About}}</p><p data-i18n="about.sub">I care about understanding failure cases, not just the happy path: duplicate payment callbacks, competing wallet updates, slow reports, and jobs that take longer than an HTTP request.</p><a class="text-link" href="{{.Profile.Github}}" target="_blank" rel="noopener noreferrer" data-i18n="about.github">Explore my GitHub <span aria-hidden="true">↗</span></a>
-    <div class="skill-columns"><div><h3 data-i18n="about.prod_title">Production stack</h3><ul class="skill-list">{{range .Profile.ProductionStack}}<li>{{.}}</li>{{end}}</ul></div><div><h3 data-i18n="about.go_title">Go & delivery practice</h3><ul class="skill-list">{{range .Profile.GoStack}}<li>{{.}}</li>{{end}}</ul></div></div>
-  </div>
-</section>
-<section class="experience-section"><div class="container section experience-grid"><div><p class="eyebrow" data-i18n="exp.eyebrow">02 / EXPERIENCE</p><h2 data-i18n="exp.title">Shipping in<br>real environments.</h2></div><div>{{range .Profile.Experience}}<article class="experience-card"><p class="small-label" data-i18n="exp.period">{{.Period}}</p><h3 data-i18n="exp.role">{{.Role}}</h3><p class="company">{{.Company}}</p><p data-i18n="exp.summary">{{.Summary}}</p></article>{{end}}</div></div></section>
-<section id="work" class="section container">
-  <div class="section-top"><div><p class="eyebrow" data-i18n="work.eyebrow">03 / SELECTED WORK</p><h2 data-i18n="work.title">Problems I've worked on.</h2></div><p class="section-note" data-i18n="work.note">My contributions, not just a list of technologies.<br>Client projects are described without private source code.</p></div>
-  <div class="filters" id="project-filters" role="group" aria-label="Filter projects" hidden><button class="filter active" type="button" data-filter="all" aria-pressed="true" data-i18n="filter.all">All work</button><button class="filter" type="button" data-filter="Personal / Go" aria-pressed="false" data-i18n="filter.go">Personal / Go</button><button class="filter" type="button" data-filter="Production" aria-pressed="false" data-i18n="filter.prod">Production</button></div>
-  <p id="filter-status" class="sr-only" aria-live="polite"></p>
-  <div class="project-grid">{{range $i,$p:=.Projects}}<article class="project-card" data-category="{{$p.Category}}" data-project-id="{{$p.ID}}"><div class="project-meta"><span class="project-number">0{{addOne $i}}</span><span class="project-category" data-category-badge="{{$p.ID}}">{{$p.Category}}</span></div><h3>{{$p.Name}}</h3><p class="project-period" data-period-id="{{$p.ID}}">{{$p.Period}}</p><p data-summary-id="{{$p.ID}}">{{$p.Summary}}</p><div class="tags">{{range $p.Stack}}<span>{{.}}</span>{{end}}</div><details><summary><span data-i18n="proj.contribution">My contribution</span> <span aria-hidden="true">+</span></summary><ul data-highlights-id="{{$p.ID}}">{{range $p.Highlights}}<li>{{.}}</li>{{end}}</ul></details>{{if $p.SourceURL}}<a class="text-link project-source" href="{{$p.SourceURL}}" target="_blank" rel="noopener noreferrer" data-i18n="proj.view_repo">Live website <span aria-hidden="true">↗</span></a>{{end}}</article>{{end}}</div>
-</section>
-<section id="engineering" class="engineering-section"><div class="container section"><div class="section-top"><div><p class="eyebrow" data-i18n="eng.eyebrow">04 / UNDER THE HOOD</p><h2 data-i18n="eng.title">A portfolio with<br>a real Go backend.</h2></div><p class="section-note" data-i18n="eng.note">Server-rendered HTML. Embedded assets. PostgreSQL.<br>No framework needed to serve the first page.</p></div><div class="engineering-grid"><div><h3 data-i18n="eng.small_title">Small by design.</h3><p data-i18n="eng.small_desc">This site uses Go's standard HTTP server and templates. Projects come from a store interface; contact messages are validated server-side. PostgreSQL is required in production.</p><ul class="engineering-list"><li data-i18n="eng.li1">Parameterized SQL and context timeouts</li><li data-i18n="eng.li2">CSRF tokens, request limits, and security headers</li><li data-i18n="eng.li3">Health/readiness checks and graceful shutdown</li><li data-i18n="eng.li4">Docker packaging and automated Go checks</li></ul><div class="api-actions" hidden><button class="button primary" id="check-backend" type="button" data-i18n="eng.check_btn">Check backend <span aria-hidden="true">↗</span></button><a class="text-link" href="/api/projects" target="_blank" rel="noopener noreferrer" data-i18n="eng.view_json">View projects JSON ↗</a></div><p id="backend-status" class="small-label" aria-live="polite">Live checks are available at <a href="/readyz">/readyz</a>.</p></div><div class="terminal"><div class="terminal-bar"><span class="terminal-dots" aria-hidden="true">● ● ●</span><span>HTTP / readyz</span></div><pre id="api-output" tabindex="0">GET /readyz
+<span class="code-muted" data-i18n="hero.code_comment">// Build. Test. Understand.</span></code></pre>
+        </div>
+      </aside>
+    </section>
+    <div class="stack-strip">
+      <div class="container strip-inner"><span data-i18n="strip.tools">TOOLS I WORK
+          WITH</span><strong>Go</strong><strong>NestJS</strong><strong>Laravel</strong><strong>PostgreSQL</strong><strong>Redis</strong><strong>Docker</strong>
+      </div>
+    </div>
+    <section id="about" class="section container about-grid">
+      <div>
+        <p class="eyebrow" data-i18n="about.eyebrow">01 / THE PERSON BEHIND THE CODE</p>
+        <h2 data-i18n="about.title">Practical work.<br>Curious mindset.</h2>
+      </div>
+      <div class="about-content">
+        <p class="lead" data-i18n="about.lead">{{.Profile.About}}</p>
+        <p data-i18n="about.sub">I care about understanding failure cases, not just the happy path: duplicate payment
+          callbacks, competing wallet updates, slow reports, and jobs that take longer than an HTTP request.</p><a
+          class="text-link" href="{{.Profile.Github}}" target="_blank" rel="noopener noreferrer"
+          data-i18n="about.github">Explore my GitHub <span aria-hidden="true">↗</span></a>
+        <div class="skill-columns">
+          <div>
+            <h3 data-i18n="about.prod_title">Production stack</h3>
+            <ul class="skill-list">{{range .Profile.ProductionStack}}<li>{{.}}</li>{{end}}</ul>
+          </div>
+          <div>
+            <h3 data-i18n="about.go_title">Go & delivery practice</h3>
+            <ul class="skill-list">{{range .Profile.GoStack}}<li>{{.}}</li>{{end}}</ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="experience-section">
+      <div class="container section experience-grid">
+        <div>
+          <p class="eyebrow" data-i18n="exp.eyebrow">02 / EXPERIENCE</p>
+          <h2 data-i18n="exp.title">Shipping in<br>real environments.</h2>
+        </div>
+        <div>{{range .Profile.Experience}}<article class="experience-card">
+            <p class="small-label" data-i18n="exp.period">{{.Period}}</p>
+            <h3 data-i18n="exp.role">{{.Role}}</h3>
+            <p class="company">{{.Company}}</p>
+            <p data-i18n="exp.summary">{{.Summary}}</p>
+          </article>{{end}}</div>
+      </div>
+    </section>
+    <section id="work" class="section container">
+      <div class="section-top">
+        <div>
+          <p class="eyebrow" data-i18n="work.eyebrow">03 / SELECTED WORK</p>
+          <h2 data-i18n="work.title">Problems I've worked on.</h2>
+        </div>
+        <p class="section-note" data-i18n="work.note">My contributions, not just a list of technologies.<br>Client
+          projects are described without private source code.</p>
+      </div>
+      <div class="filters" id="project-filters" role="group" aria-label="Filter projects" hidden><button
+          class="filter active" type="button" data-filter="all" aria-pressed="true" data-i18n="filter.all">All
+          work</button><button class="filter" type="button" data-filter="Personal / Go" aria-pressed="false"
+          data-i18n="filter.go">Personal / Go</button><button class="filter" type="button" data-filter="Production"
+          aria-pressed="false" data-i18n="filter.prod">Production</button></div>
+      <p id="filter-status" class="sr-only" aria-live="polite"></p>
+      <div class="project-grid">{{range $i,$p:=.Projects}}<article class="project-card" data-category="{{$p.Category}}"
+          data-project-id="{{$p.ID}}">
+          <div class="project-meta"><span class="project-number">0{{addOne $i}}</span><span class="project-category"
+              data-category-badge="{{$p.ID}}">{{$p.Category}}</span></div>
+          <h3>{{$p.Name}}</h3>
+          <p class="project-period" data-period-id="{{$p.ID}}">{{$p.Period}}</p>
+          <p data-summary-id="{{$p.ID}}">{{$p.Summary}}</p>
+          <div class="tags">{{range $p.Stack}}<span>{{.}}</span>{{end}}</div>
+          <details>
+            <summary><span data-i18n="proj.contribution">My contribution</span> <span aria-hidden="true">+</span>
+            </summary>
+            <ul data-highlights-id="{{$p.ID}}">{{range $p.Highlights}}<li>{{.}}</li>{{end}}</ul>
+          </details>{{if $p.SourceURL}}<a class="text-link project-source" href="{{$p.SourceURL}}" target="_blank"
+            rel="noopener noreferrer" data-i18n="proj.view_repo">Live website <span
+              aria-hidden="true">↗</span></a>{{end}}
+        </article>{{end}}</div>
+    </section>
+    <section id="engineering" class="engineering-section">
+      <div class="container section">
+        <div class="section-top">
+          <div>
+            <p class="eyebrow" data-i18n="eng.eyebrow">04 / UNDER THE HOOD</p>
+            <h2 data-i18n="eng.title">A portfolio with<br>a real Go backend.</h2>
+          </div>
+          <p class="section-note" data-i18n="eng.note">Server-rendered HTML. Embedded assets. PostgreSQL.<br>No
+            framework needed to serve the first page.</p>
+        </div>
+        <div class="engineering-grid">
+          <div>
+            <h3 data-i18n="eng.small_title">Small by design.</h3>
+            <p data-i18n="eng.small_desc">This site uses Go's standard HTTP server and templates. Projects come from a
+              store interface; contact messages are validated server-side. PostgreSQL is required in production.</p>
+            <ul class="engineering-list">
+              <li data-i18n="eng.li1">Parameterized SQL and context timeouts</li>
+              <li data-i18n="eng.li2">CSRF tokens, request limits, and security headers</li>
+              <li data-i18n="eng.li3">Health/readiness checks and graceful shutdown</li>
+              <li data-i18n="eng.li4">Docker packaging and automated Go checks</li>
+            </ul>
+            <div class="api-actions" hidden><button class="button primary" id="check-backend" type="button"
+                data-i18n="eng.check_btn">Check backend <span aria-hidden="true">↗</span></button><a class="text-link"
+                href="/api/projects" target="_blank" rel="noopener noreferrer" data-i18n="eng.view_json">View projects
+                JSON ↗</a></div>
+            <p id="backend-status" class="small-label" aria-live="polite">Live checks are available at <a
+                href="/readyz">/readyz</a>.</p>
+          </div>
+          <div class="terminal">
+            <div class="terminal-bar"><span class="terminal-dots" aria-hidden="true">● ● ●</span><span>HTTP /
+                readyz</span></div>
+            <pre id="api-output" tabindex="0">GET /readyz
 
 Click “Check backend” to inspect a real response.
 
 GET /api/projects
 GET /api/profile
-POST /contact</pre></div></div></div></section>
-<section class="section container learning-grid"><div><p class="eyebrow" data-i18n="learn.eyebrow">05 / CONTINUOUS LEARNING</p><h2 data-i18n="learn.title">Keep learning.<br>Keep building.</h2><p class="muted" data-i18n="learn.edu">{{.Profile.Education}}</p></div><div class="training-list">{{range $ti,$t:=.Profile.Training}}<div class="training"><h3 data-training-title="{{$ti}}">{{$t.Name}}</h3><p data-training-sub="{{$ti}}">{{$t.Provider}} · {{$t.Date}} · Completed training</p></div>{{end}}</div></section>
-<section id="game" class="game-section">
-  <div class="container section">
-    <div class="section-top">
+POST /contact</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section container learning-grid">
       <div>
-        <p class="eyebrow" data-i18n="game.eyebrow">06 / MINI GAME</p>
-        <h2 data-i18n="game.title">Gopher Cứu Gói Tin<br><span class="accent">Packet Catcher</span> 🎮</h2>
+        <p class="eyebrow" data-i18n="learn.eyebrow">05 / CONTINUOUS LEARNING</p>
+        <h2 data-i18n="learn.title">Keep learning.<br>Keep building.</h2>
+        <p class="muted" data-i18n="learn.edu">{{.Profile.Education}}</p>
       </div>
-      <p class="section-note" data-i18n="game.note">Hứng các gói tin chuẩn (200 OK, Goroutine, Redis, Postgres), tránh bẫy Bug 500 và Deadlock để giữ server 99.99% uptime!</p>
-    </div>
-    <div class="game-layout">
-      <div class="game-main-card">
-        <div class="game-hud">
-          <div class="hud-item"><span class="hud-label" data-i18n="game.score">Score:</span> <strong id="game-score">0</strong></div>
-          <div class="hud-item"><span class="hud-label" data-i18n="game.level">Level:</span> <strong id="game-level">1</strong></div>
-          <div class="hud-item"><span class="hud-label" data-i18n="game.lives">Lives:</span> <span id="game-lives" aria-label="3 lives">❤️❤️❤️</span></div>
-          <div class="hud-actions">
-            <button id="game-sound-btn" class="icon-button hud-btn" type="button" aria-label="Toggle Sound" title="Sound: On/Off">🔊</button>
+      <div class="training-list">{{range $ti,$t:=.Profile.Training}}<div class="training">
+          <h3 data-training-title="{{$ti}}">{{$t.Name}}</h3>
+          <p data-training-sub="{{$ti}}">{{$t.Provider}} · {{$t.Date}} · Completed training</p>
+        </div>{{end}}</div>
+    </section>
+    <section id="game" class="game-section">
+      <div class="container section">
+        <div class="section-top">
+          <div>
+            <p class="eyebrow" data-i18n="game.eyebrow">06 / MINI GAME</p>
+            <h2 data-i18n="game.title">Gopher Cứu Gói Tin<br><span class="accent">Packet Catcher</span> 🎮</h2>
           </div>
+          <p class="section-note" data-i18n="game.note">Hứng các gói tin chuẩn (200 OK, Goroutine, Redis, Postgres),
+            tránh bẫy Bug 500 và Deadlock để giữ server 99.99% uptime!</p>
         </div>
-        <div class="game-canvas-wrap" style="position:relative;width:100%;aspect-ratio:600/420;background:#0d1c19;border-radius:12px;overflow:hidden;border:1px solid #28443d;">
-          <canvas id="game-canvas" width="600" height="420" style="width:100%;height:100%;display:block;"></canvas>
-          <div id="game-overlay" class="game-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(12,25,23,0.92);backdrop-filter:blur(5px);z-index:10;padding:24px;text-align:center;">
-            <div id="game-start-view" class="overlay-content">
-              <div class="gopher-badge">🐹</div>
-              <h3 data-i18n="game.start_title">Gopher Cứu Gói Tin</h3>
-              <p data-i18n="game.start_desc">Cứu server Go khỏi sập bằng cách hứng các gói tin lành và né tránh bọ lỗi!</p>
-              <div class="game-legend">
-                <span><i class="legend-badge good">200 OK</i> +10</span>
-                <span><i class="legend-badge good">Goroutine</i> +20</span>
-                <span><i class="legend-badge good">Redis</i> +30</span>
-                <span><i class="legend-badge good">Postgres</i> +40</span>
-                <span><i class="legend-badge bad">Bug 500</i> -1 ❤️</span>
-                <span><i class="legend-badge bad">Deadlock</i> -1 ❤️</span>
+        <div class="game-layout">
+          <div class="game-main-card">
+            <div class="game-hud">
+              <div class="hud-item"><span class="hud-label" data-i18n="game.score">Score:</span> <strong
+                  id="game-score">0</strong></div>
+              <div class="hud-item"><span class="hud-label" data-i18n="game.level">Level:</span> <strong
+                  id="game-level">1</strong></div>
+              <div class="hud-item"><span class="hud-label" data-i18n="game.lives">Lives:</span> <span id="game-lives"
+                  aria-label="3 lives">❤️❤️❤️</span></div>
+              <div class="hud-actions">
+                <button id="game-sound-btn" class="icon-button hud-btn" type="button" aria-label="Toggle Sound"
+                  title="Sound: On/Off">🔊</button>
               </div>
-              <button id="btn-start-game" class="button primary" type="button" data-i18n="game.btn_start">Bắt đầu chơi 🚀</button>
             </div>
-            <div id="game-over-view" class="overlay-content" hidden>
-              <div class="game-over-emoji">💥</div>
-              <h3 data-i18n="game.over_title">Server Timeout! Game Over</h3>
-              <p><span data-i18n="game.final_score">Điểm số của bạn:</span> <strong id="game-final-score" class="accent">0</strong></p>
-              <form id="game-score-form" class="score-form">
-                <label for="player-name" class="sr-only">Player Name</label>
-                <input type="text" id="player-name" maxlength="25" minlength="2" placeholder="Tên của bạn (vd: GopherHero)" required autocomplete="nickname" data-i18n-ph="game.ph_name">
-                <button type="submit" class="button primary" id="btn-save-score" data-i18n="game.save_score">Lưu điểm vào Go Server 🏆</button>
-              </form>
-              <div id="score-submit-msg" class="score-submit-msg" aria-live="polite"></div>
-              <button id="btn-restart-game" class="button secondary" type="button" data-i18n="game.btn_replay">Chơi lại 🔄</button>
+            <div class="game-canvas-wrap"
+              style="position:relative;width:100%;aspect-ratio:600/420;background:#0d1c19;border-radius:12px;overflow:hidden;border:1px solid #28443d;">
+              <canvas id="game-canvas" width="600" height="420" style="width:100%;height:100%;display:block;"></canvas>
+              <div id="game-overlay" class="game-overlay"
+                style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(12,25,23,0.92);backdrop-filter:blur(5px);z-index:10;padding:24px;text-align:center;">
+                <div id="game-start-view" class="overlay-content">
+                  <div class="gopher-badge">🐹</div>
+                  <h3 data-i18n="game.start_title">Gopher Cứu Gói Tin</h3>
+                  <p data-i18n="game.start_desc">Cứu server Go khỏi sập bằng cách hứng các gói tin lành và né tránh bọ
+                    lỗi!</p>
+                  <div class="game-legend">
+                    <span><i class="legend-badge good">200 OK</i> +10</span>
+                    <span><i class="legend-badge good">Goroutine</i> +20</span>
+                    <span><i class="legend-badge good">Redis</i> +30</span>
+                    <span><i class="legend-badge good">Postgres</i> +40</span>
+                    <span><i class="legend-badge bad">Bug 500</i> -1 ❤️</span>
+                    <span><i class="legend-badge bad">Deadlock</i> -1 ❤️</span>
+                  </div>
+                  <button id="btn-start-game" class="button primary" type="button" data-i18n="game.btn_start">Bắt đầu
+                    chơi 🚀</button>
+                </div>
+                <div id="game-over-view" class="overlay-content" hidden>
+                  <div class="game-over-emoji">💥</div>
+                  <h3 data-i18n="game.over_title">Server Timeout! Game Over</h3>
+                  <p><span data-i18n="game.final_score">Điểm số của bạn:</span> <strong id="game-final-score"
+                      class="accent">0</strong></p>
+                  <form id="game-score-form" class="score-form">
+                    <label for="player-name" class="sr-only">Player Name</label>
+                    <input type="text" id="player-name" maxlength="25" minlength="2"
+                      placeholder="Tên của bạn (vd: GopherHero)" required autocomplete="nickname"
+                      data-i18n-ph="game.ph_name">
+                    <button type="submit" class="button primary" id="btn-save-score" data-i18n="game.save_score">Lưu
+                      điểm vào Go Server 🏆</button>
+                  </form>
+                  <div id="score-submit-msg" class="score-submit-msg" aria-live="polite"></div>
+                  <button id="btn-restart-game" class="button secondary" type="button" data-i18n="game.btn_replay">Chơi
+                    lại 🔄</button>
+                </div>
+              </div>
+            </div>
+            <div class="game-mobile-controls" aria-label="Mobile Controls">
+              <button id="btn-move-left" class="mobile-ctrl-btn" type="button" aria-label="Move Left" data-i18n="game.btn_left">⬅️ Trái</button>
+              <button id="btn-move-right" class="mobile-ctrl-btn" type="button" aria-label="Move Right" data-i18n="game.btn_right">Phải ➡️</button>
+            </div>
+            <div class="game-guide">
+              <p><strong data-i18n="game.controls_title">Cách điều khiển:</strong> <span
+                  data-i18n="game.controls_desc">Dùng phím Mũi tên ⬅️ ➡️ hoặc A / D trên bàn phím. Trên Mobile / Chuột:
+                  chạm hoặc rê chuột trên màn hình để di chuyển Gopher.</span></p>
             </div>
           </div>
-        </div>
-        <div class="game-mobile-controls" aria-label="Mobile Controls">
-          <button id="btn-move-left" class="mobile-ctrl-btn" type="button" aria-label="Move Left">⬅️ Trái</button>
-          <button id="btn-move-right" class="mobile-ctrl-btn" type="button" aria-label="Move Right">Phải ➡️</button>
-        </div>
-        <div class="game-guide">
-          <p><strong data-i18n="game.controls_title">Cách điều khiển:</strong> <span data-i18n="game.controls_desc">Dùng phím Mũi tên ⬅️ ➡️ hoặc A / D trên bàn phím. Trên Mobile / Chuột: chạm hoặc rê chuột trên màn hình để di chuyển Gopher.</span></p>
+          <div class="game-sidebar">
+            <div class="leaderboard-card">
+              <div class="lb-header">
+                <h3>🏆 <span data-i18n="game.lb_title">Bảng Xếp Hạng Go</span></h3>
+                <button id="btn-refresh-lb" class="icon-button hud-btn" type="button" title="Làm mới"
+                  aria-label="Refresh leaderboard">↻</button>
+              </div>
+              <p class="lb-sub" data-i18n="game.lb_sub">Được đồng bộ trực tiếp qua REST API Go backend</p>
+              <div class="lb-list-wrap">
+                <ol id="leaderboard-list" class="leaderboard-list">
+                  <li class="lb-loading" data-i18n="game.lb_loading">Đang tải bảng điểm...</li>
+                </ol>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="game-sidebar">
-        <div class="leaderboard-card">
-          <div class="lb-header">
-            <h3>🏆 <span data-i18n="game.lb_title">Bảng Xếp Hạng Go</span></h3>
-            <button id="btn-refresh-lb" class="icon-button hud-btn" type="button" title="Làm mới" aria-label="Refresh leaderboard">↻</button>
-          </div>
-          <p class="lb-sub" data-i18n="game.lb_sub">Được đồng bộ trực tiếp qua REST API Go backend</p>
-          <div class="lb-list-wrap">
-            <ol id="leaderboard-list" class="leaderboard-list">
-              <li class="lb-loading" data-i18n="game.lb_loading">Đang tải bảng điểm...</li>
-            </ol>
-          </div>
+    </section>
+    <section id="contact" class="contact-section">
+      <div class="container section contact-grid">
+        <div>
+          <p class="eyebrow" data-i18n="contact.eyebrow">07 / GET IN TOUCH</p>
+          <h2 data-i18n="contact.title">Let's talk<br><span class="accent">backend.</span></h2>
+          <p data-i18n="contact.desc">Have a backend opportunity or a technical question?<br>I'd be happy to hear from
+            you.</p><a class="contact-email" href="mailto:{{.Profile.Email}}">{{.Profile.Email}} <span
+              aria-hidden="true">↗</span></a>
+          <div class="social-links"><a href="{{.Profile.Github}}" target="_blank" rel="noopener noreferrer">GitHub
+              ↗</a><a href="{{.Profile.Linkedin}}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div>
+          <p class="privacy-note" data-i18n="contact.privacy">The form stores your name, email, and message. Messages
+            are scheduled for deletion after 30 days; cleanup runs daily while the server is active. No advertising
+            trackers.</p>
+        </div>
+        <div>{{if eq .Mode "memory"}}<p class="notice warning" data-i18n="contact.dev_mode">Development mode: messages
+            are temporary and disappear when the server restarts. Use email for a real enquiry.</p>{{end}}{{if .Sent}}<p
+            class="notice success" role="status" data-i18n="contact.sent_msg">Your message was saved{{if eq .Mode
+            "memory"}} temporarily in this development session{{end}}. This form does not send email notifications. For
+            a time-sensitive enquiry, email me directly.</p>{{end}}{{if .Error}}<p class="notice warning" role="alert">
+            {{.Error}}</p>{{end}}<form method="post" action="/contact" class="contact-form"><input type="hidden"
+              name="csrf_token" value="{{.CSRF}}">
+            <div class="honeypot" aria-hidden="true"><label for="website">Leave this empty</label><input id="website"
+                name="website" type="text" tabindex="-1" autocomplete="off"></div><label for="name"
+              data-i18n="contact.label_name">Your name</label><input id="name" name="name" autocomplete="name"
+              minlength="2" maxlength="80" required placeholder="Your name" data-i18n-ph="contact.ph_name"><label
+              for="email" data-i18n="contact.label_email">Email address</label><input id="email" type="email"
+              name="email" autocomplete="email" maxlength="254" required placeholder="you@company.com"
+              data-i18n-ph="contact.ph_email"><label for="message"
+              data-i18n="contact.label_message">Message</label><textarea id="message" name="message" rows="4"
+              minlength="20" maxlength="2000" required
+              placeholder="Tell me about the opportunity or what you'd like to discuss…"
+              data-i18n-ph="contact.ph_message"></textarea><button class="button primary" type="submit"
+              data-i18n="contact.btn_send">Send message <span aria-hidden="true">↗</span></button>
+            <p class="form-note" data-i18n="contact.note">20–2,000 characters. Please don't include passwords or
+              confidential data.</p>
+          </form>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-<section id="contact" class="contact-section"><div class="container section contact-grid"><div><p class="eyebrow" data-i18n="contact.eyebrow">07 / GET IN TOUCH</p><h2 data-i18n="contact.title">Let's talk<br><span class="accent">backend.</span></h2><p data-i18n="contact.desc">Have a backend opportunity or a technical question?<br>I'd be happy to hear from you.</p><a class="contact-email" href="mailto:{{.Profile.Email}}">{{.Profile.Email}} <span aria-hidden="true">↗</span></a><div class="social-links"><a href="{{.Profile.Github}}" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="{{.Profile.Linkedin}}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div><p class="privacy-note" data-i18n="contact.privacy">The form stores your name, email, and message. Messages are scheduled for deletion after 30 days; cleanup runs daily while the server is active. No advertising trackers.</p></div><div>{{if eq .Mode "memory"}}<p class="notice warning" data-i18n="contact.dev_mode">Development mode: messages are temporary and disappear when the server restarts. Use email for a real enquiry.</p>{{end}}{{if .Sent}}<p class="notice success" role="status" data-i18n="contact.sent_msg">Your message was saved{{if eq .Mode "memory"}} temporarily in this development session{{end}}. This form does not send email notifications. For a time-sensitive enquiry, email me directly.</p>{{end}}{{if .Error}}<p class="notice warning" role="alert">{{.Error}}</p>{{end}}<form method="post" action="/contact" class="contact-form"><input type="hidden" name="csrf_token" value="{{.CSRF}}"><div class="honeypot" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div><label for="name" data-i18n="contact.label_name">Your name</label><input id="name" name="name" autocomplete="name" minlength="2" maxlength="80" required placeholder="Your name" data-i18n-ph="contact.ph_name"><label for="email" data-i18n="contact.label_email">Email address</label><input id="email" type="email" name="email" autocomplete="email" maxlength="254" required placeholder="you@company.com" data-i18n-ph="contact.ph_email"><label for="message" data-i18n="contact.label_message">Message</label><textarea id="message" name="message" rows="4" minlength="20" maxlength="2000" required placeholder="Tell me about the opportunity or what you'd like to discuss…" data-i18n-ph="contact.ph_message"></textarea><button class="button primary" type="submit" data-i18n="contact.btn_send">Send message <span aria-hidden="true">↗</span></button><p class="form-note" data-i18n="contact.note">20–2,000 characters. Please don't include passwords or confidential data.</p></form></div></div></section>
-</main>
-<footer class="container footer"><a class="wordmark" href="#home"><span class="logo-mark">N<span>.</span></span><span>{{.Profile.Name}}</span></a><p>© {{.Year}} · Served by {{.GoVersion}}</p><a href="#home" class="text-link" data-i18n="footer.top">Back to top ↑</a></footer>
+    </section>
+  </main>
+  <footer class="container footer"><a class="wordmark" href="#home"><span
+        class="logo-mark">N<span>.</span></span><span>{{.Profile.Name}}</span></a>
+    <p>© {{.Year}} · Served by {{.GoVersion}}</p><a href="#home" class="text-link" data-i18n="footer.top">Back to top
+      ↑</a>
+  </footer>
 </body>
+
 </html>

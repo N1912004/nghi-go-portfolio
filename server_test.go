@@ -386,4 +386,38 @@ func TestGameEndpoints(t *testing.T) {
 	if w.Code != http.StatusUnprocessableEntity {
 		t.Fatalf("expected 422, got %d", w.Code)
 	}
+
+	// Test name sanitization (HTML escaping)
+	req = httptest.NewRequest("POST", "/api/game/score", strings.NewReader(`{"name": "<b>Hacker</b>", "score": 2100}`))
+	req.Header.Set("Content-Type", "application/json")
+	w = httptest.NewRecorder()
+	a.Handler().ServeHTTP(w, req)
+	if w.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d", w.Code)
+	}
+	var sanitizeResp struct {
+		Leaderboard []GameScore `json:"leaderboard"`
+	}
+	_ = json.Unmarshal(w.Body.Bytes(), &sanitizeResp)
+	found := false
+	for _, s := range sanitizeResp.Leaderboard {
+		if strings.Contains(s.Name, "Hacker") {
+			found = true
+			if strings.Contains(s.Name, "<script>") || strings.Contains(s.Name, "<b>") {
+				t.Fatalf("name was not properly escaped: %s", s.Name)
+			}
+		}
+	}
+	if !found {
+		t.Fatal("expected sanitized player in leaderboard")
+	}
+
+	// Test boundary score
+	req = httptest.NewRequest("POST", "/api/game/score", strings.NewReader(`{"name": "OverLimit", "score": 100001}`))
+	req.Header.Set("Content-Type", "application/json")
+	w = httptest.NewRecorder()
+	a.Handler().ServeHTTP(w, req)
+	if w.Code != http.StatusUnprocessableEntity {
+		t.Fatalf("expected 422 for score > 100000, got %d", w.Code)
+	}
 }
